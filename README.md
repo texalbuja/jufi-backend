@@ -19,7 +19,7 @@ A Flask REST API for the JF Portal.
    uv run python main.py
    ```
 
-The API will be available at http://localhost:5000
+The API will be available at http://localhost:8080
 
 ## API Endpoints
 
