@@ -1,0 +1,18 @@
+meta {
+  name: 03 Login User JWT
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{host}}/api/auth/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "supervisor@juradofiallos.com",
+    "password": "12345678"
+  }
+}

@@ -1,0 +1,18 @@
+meta {
+  name: 07 Login Admin JWT
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{host}}/api/auth/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "admin@jufi.local",
+    "password": "Admin123ChangeMe"
+  }
+}

@@ -1,0 +1,24 @@
+meta {
+  name: 02 Register User
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{host}}/api/auth/register
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:json {
+  {
+    "name": "Usuario Supervisor",
+    "email": "supervisor@juradofiallos.com",
+    "password": "12345678",
+    "roles": ["supervisor"]
+  }
+}
