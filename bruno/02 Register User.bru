@@ -5,7 +5,7 @@ meta {
 }
 
 post {
-  url: {{host}}/api/auth/register
+  url: {{host}}/auth/register
   body: json
   auth: bearer
 }
@@ -16,9 +16,9 @@ auth:bearer {
 
 body:json {
   {
-    "name": "Usuario Supervisor",
-    "email": "supervisor@juradofiallos.com",
+    "name": "Usuario Gestor Cuenta Bancaria",
+    "email": "gestor-cuenta-bancaria@juradofiallos.com",
     "password": "12345678",
-    "roles": ["supervisor"]
+    "roles": ["gestor_cuenta_bancaria"]
   }
 }

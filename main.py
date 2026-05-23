@@ -3,6 +3,7 @@ from datetime import UTC, datetime, timedelta
 from functools import wraps
 
 import jwt
+from flask_cors import CORS
 from flask import Flask, g, jsonify, request
 from psycopg2 import IntegrityError
 from psycopg2.extras import DictCursor
@@ -11,6 +12,12 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 
 app = Flask(__name__)
+
+CORS(
+    app,
+    resources={r"/*": {"origins": os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost:5003,http://127.0.0.1:5003").split(",")}},
+    supports_credentials=True,
+)
 
 app.config["DATABASE_URL"] = os.getenv(
     "DATABASE_URL", "postgresql://localhost:5432/jufi"
@@ -23,11 +30,12 @@ def get_db_connection():
     return psycopg2.connect(app.config["DATABASE_URL"])
 
 
-def create_access_token(user_id: int, email: str, roles: list[str]) -> str:
+def create_access_token(user_id: int, email: str, roles: list[str], name: str) -> str:
     issued_at = datetime.now(UTC)
     payload = {
         "sub": str(user_id),
         "email": email,
+        "name": name,
         "roles": roles,
         "iat": int(issued_at.timestamp()),
         "exp": int((issued_at + timedelta(minutes=app.config["JWT_EXP_MINUTES"])).timestamp()),
@@ -62,6 +70,7 @@ def token_required(required_roles: set[str] | None = None):
             g.user = {
                 "id": payload.get("sub"),
                 "email": payload.get("email"),
+                "name": payload.get("name"),
                 "roles": list(roles),
             }
             return f(*args, **kwargs)
@@ -92,12 +101,12 @@ def get_user_with_roles_by_email(email: str):
             return cur.fetchone()
 
 
-@app.route("/api/hello", methods=["GET"])
+@app.route("/hello", methods=["GET"])
 def hello():
     return jsonify({"message": "Hello, World!"})
 
 
-@app.route("/api/auth/register", methods=["POST"])
+@app.route("/auth/register", methods=["POST"])
 @token_required(required_roles={"admin"})
 def register_user():
     data = request.get_json(silent=True) or {}
@@ -175,7 +184,7 @@ def register_user():
     )
 
 
-@app.route("/api/auth/login", methods=["POST"])
+@app.route("/auth/login", methods=["POST"])
 def login_user():
     data = request.get_json(silent=True) or {}
     email = (data.get("email") or "").strip()
@@ -191,10 +200,11 @@ def login_user():
     if not check_password_hash(user["password_hash"], password):
         return jsonify({"error": "Invalid credentials"}), 401
 
-    token = create_access_token(user["id"], user["email"], list(user["roles"]))
+    token = create_access_token(user["id"], user["email"], list(user["roles"]), user["name"])
     return jsonify(
         {
             "access_token": token,
+            "authToken": token,
             "token_type": "Bearer",
             "expires_in_minutes": app.config["JWT_EXP_MINUTES"],
             "user": {
@@ -207,13 +217,20 @@ def login_user():
     )
 
 
-@app.route("/api/auth/me", methods=["GET"])
+@app.route("/auth/me", methods=["GET"])
 @token_required()
 def auth_me():
     return jsonify({"user": g.user})
 
 
-@app.route("/api/admin/ping", methods=["GET"])
+@app.route("/auth/logout", methods=["POST"])
+@token_required()
+def auth_logout():
+    # JWT is stateless; clients must discard the token on logout.
+    return jsonify({"message": "Logged out"})
+
+
+@app.route("/admin/ping", methods=["GET"])
 @token_required(required_roles={"admin"})
 def admin_ping():
     return jsonify({"message": "Admin access granted"})

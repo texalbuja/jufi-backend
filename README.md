@@ -25,6 +25,7 @@ This backend now includes:
    export DATABASE_URL="postgresql://user:password@localhost:5432/jf_portal"
    export JWT_SECRET_KEY="replace-with-a-strong-secret"
    export JWT_EXP_MINUTES="60"
+   export CORS_ALLOWED_ORIGINS="http://localhost:5003,http://127.0.0.1:5003"
    ```
 
    Generate a strong JWT secret key (recommended, macOS):
@@ -111,11 +112,12 @@ flyway info
 
 ## API Endpoints
 
-- GET /api/hello: Returns a hello message in JSON format.
-- POST /api/auth/register: Creates a user with hashed password and one or more roles.
-- POST /api/auth/login: Validates credentials and returns a JWT token.
-- GET /api/auth/me: Returns authenticated user claims from JWT.
-- GET /api/admin/ping: Protected endpoint, requires `admin` role.
+- GET /hello: Returns a hello message in JSON format.
+- POST /auth/register: Creates a user with hashed password and one or more roles.
+- POST /auth/login: Validates credentials and returns a JWT token.
+- GET /auth/me: Returns authenticated user claims from JWT.
+- POST /auth/logout: Authenticated logout acknowledgement (JWT remains stateless).
+- GET /admin/ping: Protected endpoint, requires `admin` role.
 
 ## Technical Documentation
 

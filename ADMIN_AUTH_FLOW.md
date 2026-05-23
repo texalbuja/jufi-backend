@@ -7,7 +7,7 @@ Este documento describe como funciona la autenticacion/autorizacion con JWT y el
 - El backend usa Flask + PostgreSQL.
 - Los usuarios se autentican con email y password.
 - Al autenticarse, el backend emite un JWT con claims de identidad y roles.
-- La creacion de usuarios en `POST /api/auth/register` esta restringida a usuarios con rol `admin`.
+- La creacion de usuarios en `POST /auth/register` esta restringida a usuarios con rol `admin`.
 
 ## 2) Modelo de roles
 
@@ -47,7 +47,7 @@ Recomendacion: cambiar la password inmediatamente despues del primer acceso.
 
 Endpoint:
 
-- `POST /api/auth/login`
+- `POST /auth/login`
 
 Entrada:
 
@@ -86,7 +86,7 @@ Nota tecnica: `sub` se emite como string para cumplir el estandar JWT y evitar e
 
 Endpoint:
 
-- `POST /api/auth/register`
+- `POST /auth/register`
 
 Regla actual:
 
@@ -110,7 +110,7 @@ Validaciones del payload:
 1. Obtener token admin:
 
 ```bash
-curl -X POST http://127.0.0.1:8080/api/auth/login \
+curl -X POST http://127.0.0.1:8080/auth/login \
   -H "Content-Type: application/json" \
   -d '{
     "email": "admin@jufi.local",
@@ -121,7 +121,7 @@ curl -X POST http://127.0.0.1:8080/api/auth/login \
 2. Registrar usuario con token admin:
 
 ```bash
-curl -X POST http://127.0.0.1:8080/api/auth/register \
+curl -X POST http://127.0.0.1:8080/auth/register \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <ACCESS_TOKEN_ADMIN>" \
   -d '{
@@ -135,7 +135,7 @@ curl -X POST http://127.0.0.1:8080/api/auth/register \
 3. Verificar token actual:
 
 ```bash
-curl http://127.0.0.1:8080/api/auth/me \
+curl http://127.0.0.1:8080/auth/me \
   -H "Authorization: Bearer <ACCESS_TOKEN>"
 ```
 
