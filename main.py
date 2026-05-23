@@ -9,6 +9,7 @@ from psycopg2 import IntegrityError
 from psycopg2.extras import DictCursor
 import psycopg2
 from werkzeug.security import check_password_hash, generate_password_hash
+from users import create_users_blueprint
 
 
 app = Flask(__name__)
@@ -87,6 +88,7 @@ def get_user_with_roles_by_email(email: str):
             u.name,
             u.email,
             u.password_hash,
+            u.estado,
             u.is_active,
             COALESCE(ARRAY_AGG(r.name) FILTER (WHERE r.name IS NOT NULL), ARRAY[]::TEXT[]) AS roles
         FROM users u
@@ -131,8 +133,8 @@ def register_user():
     password_hash = generate_password_hash(password)
 
     create_user_sql = """
-        INSERT INTO users (name, email, password_hash, is_active)
-        VALUES (%s, %s, %s, TRUE)
+        INSERT INTO users (name, email, password_hash, is_active, estado)
+        VALUES (%s, %s, %s, TRUE, 'Activo')
         RETURNING id, name, email;
     """
 
@@ -194,7 +196,12 @@ def login_user():
         return jsonify({"error": "email and password are required"}), 400
 
     user = get_user_with_roles_by_email(email)
-    if not user or not user["is_active"] or not user["password_hash"]:
+    if (
+        not user
+        or user["estado"] != "Activo"
+        or not user["is_active"]
+        or not user["password_hash"]
+    ):
         return jsonify({"error": "Invalid credentials"}), 401
 
     if not check_password_hash(user["password_hash"], password):
@@ -234,6 +241,9 @@ def auth_logout():
 @token_required(required_roles={"admin"})
 def admin_ping():
     return jsonify({"message": "Admin access granted"})
+
+
+app.register_blueprint(create_users_blueprint(get_db_connection, token_required))
 
 
 if __name__ == "__main__":

@@ -119,6 +119,45 @@ flyway info
 - POST /auth/logout: Authenticated logout acknowledgement (JWT remains stateless).
 - GET /admin/ping: Protected endpoint, requires `admin` role.
 
+## Integration Tests
+
+The backend includes an end-to-end integration flow test under:
+
+- `tests/integration/test_admin_user_flow.py`
+
+This test validates:
+
+- admin login
+- admin users listing
+- admin user registration
+- non-admin delete rejection (403)
+- admin logical delete
+- idempotent second delete
+- inactive user login rejection
+- not-found delete (404)
+- admin self-delete rejection
+
+Prerequisites:
+
+- API running at `http://127.0.0.1:8080` (or set `INTEGRATION_BASE_URL`)
+- migrations applied (including `V4__add_users_estado_soft_delete.sql`)
+- bootstrap admin available (`admin@jufi.local`)
+
+Run test:
+
+```bash
+cd /Users/texalbuja/Jufi/jufi-backend
+uv run python -m unittest tests.integration.test_admin_user_flow
+```
+
+Optional env vars:
+
+```bash
+export INTEGRATION_BASE_URL="http://127.0.0.1:8080"
+export INTEGRATION_ADMIN_EMAIL="admin@jufi.local"
+export INTEGRATION_ADMIN_PASSWORD="Admin123ChangeMe"
+```
+
 ## Technical Documentation
 
 - Admin auth and user registration flow: [ADMIN_AUTH_FLOW.md](ADMIN_AUTH_FLOW.md)

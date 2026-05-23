@@ -1,0 +1,15 @@
+meta {
+  name: 09 Deactivate User (admin token)
+  type: http
+  seq: 9
+}
+
+delete {
+  url: {{host}}/users/{{userIdToDeactivate}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}

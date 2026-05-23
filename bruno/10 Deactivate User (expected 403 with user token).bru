@@ -1,0 +1,15 @@
+meta {
+  name: 10 Deactivate User (expected 403 with user token)
+  type: http
+  seq: 10
+}
+
+delete {
+  url: {{host}}/users/{{userIdToDeactivate}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
