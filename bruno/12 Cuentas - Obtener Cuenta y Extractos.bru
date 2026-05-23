@@ -1,0 +1,15 @@
+meta {
+  name: Cuentas - Obtener Cuenta y Extractos
+  type: http
+  seq: 12
+}
+
+get {
+  url: {{host}}/cuentas/{{cuentaId}}/
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}

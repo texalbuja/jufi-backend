@@ -1,11 +1,11 @@
 meta {
-  name: 08 Get Users (admin token)
+  name: Auth - Admin Ping (token admin)
   type: http
-  seq: 8
+  seq: 6
 }
 
 get {
-  url: {{host}}/users
+  url: {{host}}/admin/ping
   body: none
   auth: bearer
 }

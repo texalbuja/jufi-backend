@@ -1,0 +1,25 @@
+meta {
+  name: Cuentas - Cargar Extracto Bancario
+  type: http
+  seq: 13
+}
+
+post {
+  url: {{host}}/cuentas/{{cuentaId}}/extracto-bancario
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:json {
+  {
+    "nombre_del_archivo": "extracto-demo.xlsx",
+    "archivo": "SGVsbG8=",
+    "fecha": "2026-05-23",
+    "tipo": "XLSX",
+    "estado": "Cargado"
+  }
+}

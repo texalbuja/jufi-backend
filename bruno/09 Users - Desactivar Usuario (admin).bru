@@ -1,7 +1,7 @@
 meta {
-  name: 10 Deactivate User (expected 403 with user token)
+  name: Users - Desactivar Usuario (admin)
   type: http
-  seq: 10
+  seq: 9
 }
 
 delete {
@@ -11,5 +11,5 @@ delete {
 }
 
 auth:bearer {
-  token: {{token}}
+  token: {{adminToken}}
 }

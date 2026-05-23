@@ -1,0 +1,15 @@
+meta {
+  name: Cuentas - Obtener Movimientos por Extracto
+  type: http
+  seq: 14
+}
+
+get {
+  url: {{host}}/cuentas/{{cuentaId}}/extracto-bancario/{{extractoId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}

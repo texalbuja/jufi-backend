@@ -1,6 +1,6 @@
 {
   "version": "1",
-  "name": "Jufi Backend Auth",
+  "name": "Jufi Backend - Auth, Users, Cuentas",
   "type": "collection",
   "ignore": [
     "node_modules",
