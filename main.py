@@ -10,6 +10,7 @@ from psycopg2.extras import DictCursor
 import psycopg2
 from werkzeug.security import check_password_hash, generate_password_hash
 from bank_accounts import create_bank_accounts_blueprint
+from aprobacion_montos import create_aprobacion_montos_blueprint
 from obligaciones import create_obligaciones_blueprint
 from users import create_users_blueprint
 
@@ -248,6 +249,7 @@ def admin_ping():
 app.register_blueprint(create_users_blueprint(get_db_connection, token_required))
 app.register_blueprint(create_bank_accounts_blueprint(get_db_connection, token_required))
 app.register_blueprint(create_obligaciones_blueprint(get_db_connection, token_required))
+app.register_blueprint(create_aprobacion_montos_blueprint(get_db_connection, token_required))
 
 
 if __name__ == "__main__":

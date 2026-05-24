@@ -22,7 +22,7 @@ ALLOWED_EXTRACTO_ESTADOS = {
     "Identificado",
 }
 BASE_CONSOLIDADA_ROLE = {"gestor_cuenta_bancaria"}
-CUENTA_CONSOLIDADA_ROLES = {"gestor_cuenta_bancaria", "gestor"}
+CUENTA_CONSOLIDADA_ROLES = {"gestor_cuenta_bancaria", "gestor", "aprobador"}
 ACTIVIDAD_TIPOS = {
     "Asignacion de Gestor",
     "Agregar Adjuntos",

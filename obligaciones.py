@@ -1,6 +1,6 @@
 from typing import Callable
 
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from psycopg2.extras import DictCursor
 
 
@@ -13,6 +13,8 @@ def create_obligaciones_blueprint(
     @obligaciones_bp.route("/obligaciones/", methods=["GET"])
     @token_required()
     def list_obligaciones():
+        search = (request.args.get("q") or "").strip()
+
         query = """
             SELECT
                 id,
@@ -27,12 +29,31 @@ def create_obligaciones_blueprint(
                 created_at,
                 updated_at
             FROM obligaciones
+            {where_sql}
             ORDER BY id DESC;
         """
 
+        where_sql = ""
+        params = []
+        if search:
+            like_term = f"%{search}%"
+            where_sql = """
+            WHERE (
+                nombre_cliente ILIKE %s
+                OR identificacion ILIKE %s
+                OR COALESCE(tipo, '') ILIKE %s
+                OR EXISTS (
+                    SELECT 1
+                    FROM unnest(operaciones) AS op
+                    WHERE op ILIKE %s
+                )
+            )
+            """
+            params = [like_term, like_term, like_term, like_term]
+
         with get_db_connection() as conn:
             with conn.cursor(cursor_factory=DictCursor) as cur:
-                cur.execute(query)
+                cur.execute(query.format(where_sql=where_sql), tuple(params))
                 rows = cur.fetchall()
 
         items = [
