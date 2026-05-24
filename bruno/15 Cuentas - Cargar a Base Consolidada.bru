@@ -1,0 +1,15 @@
+meta {
+  name: Cuentas - Cargar a Base Consolidada
+  type: http
+  seq: 15
+}
+
+post {
+  url: {{host}}/cuentas/{{cuentaId}}/extracto-bancario/{{extractoId}}/cargar
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{gestorCuentaToken}}
+}

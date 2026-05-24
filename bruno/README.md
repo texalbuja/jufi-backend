@@ -13,6 +13,14 @@ Collection path: `jufi-backend/bruno`
 8. `12 Cuentas - Obtener Cuenta y Extractos`
 9. `13 Cuentas - Cargar Extracto Bancario`
 10. `14 Cuentas - Obtener Movimientos por Extracto`
+11. Obtener/pegar token de usuario con rol `gestor_cuenta_bancaria` en `gestorCuentaToken`
+12. `15 Cuentas - Cargar a Base Consolidada`
+13. `16 Base Consolidada - Listar`
+14. `17 Base Consolidada - Actualizar Registro`
+15. `18 Base Consolidada - Agregar Adjunto`
+16. `19 Base Consolidada - Listar Adjuntos`
+17. `20 Base Consolidada - Registrar Actividad`
+18. `21 Base Consolidada - Listar Actividad`
 
 ## Auth
 - `02 Auth - Registrar Usuario`
@@ -33,6 +41,15 @@ Collection path: `jufi-backend/bruno`
 - `13 Cuentas - Cargar Extracto Bancario`
 - `14 Cuentas - Obtener Movimientos por Extracto`
 
+## Base Consolidada
+- `15 Cuentas - Cargar a Base Consolidada`
+- `16 Base Consolidada - Listar`
+- `17 Base Consolidada - Actualizar Registro`
+- `18 Base Consolidada - Agregar Adjunto`
+- `19 Base Consolidada - Listar Adjuntos`
+- `20 Base Consolidada - Registrar Actividad`
+- `21 Base Consolidada - Listar Actividad`
+
 ## Negative validation (non-admin)
 - Obtener un JWT de usuario no admin y pegarlo en `token`.
 - Ejecutar `10 Users - Desactivar Usuario (403 token usuario)` y esperar `403`.
@@ -40,6 +57,11 @@ Collection path: `jufi-backend/bruno`
 ## Environments included
 - `localhost.bru`
 - `docker.bru`
+
+Variables nuevas para Base Consolidada:
+- `gestorCuentaToken` (JWT con rol `gestor_cuenta_bancaria`)
+- `consolidadaId` (id de registro en `cuenta_consolidada`)
+- `actividadUsuarioId` (id de usuario para actividad)
 
 ## Notes for deactivation endpoint
 - `DELETE /users/<id>` performs logical deletion (`estado = Inactivo`).

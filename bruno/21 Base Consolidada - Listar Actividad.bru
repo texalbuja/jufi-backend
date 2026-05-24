@@ -1,0 +1,15 @@
+meta {
+  name: Base Consolidada - Listar Actividad
+  type: http
+  seq: 21
+}
+
+get {
+  url: {{host}}/cuenta-consolidada/{{consolidadaId}}/actividad
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{gestorCuentaToken}}
+}

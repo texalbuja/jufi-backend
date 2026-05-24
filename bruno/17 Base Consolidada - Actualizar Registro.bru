@@ -1,0 +1,22 @@
+meta {
+  name: Base Consolidada - Actualizar Registro
+  type: http
+  seq: 17
+}
+
+patch {
+  url: {{host}}/cuenta-consolidada/{{consolidadaId}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{gestorCuentaToken}}
+}
+
+body:json {
+  {
+    "observaciones": "Pago validado por gestor.",
+    "estado": "En Progreso"
+  }
+}

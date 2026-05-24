@@ -1,0 +1,23 @@
+meta {
+  name: Base Consolidada - Agregar Adjunto
+  type: http
+  seq: 18
+}
+
+post {
+  url: {{host}}/cuenta-consolidada/{{consolidadaId}}/adjuntos
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{gestorCuentaToken}}
+}
+
+body:json {
+  {
+    "nombre_archivo": "comprobante-001.pdf",
+    "mime_type": "application/pdf",
+    "archivo": "SGVsbG8="
+  }
+}

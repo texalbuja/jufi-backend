@@ -12,7 +12,7 @@ def create_users_blueprint(
     users_bp = Blueprint("users", __name__)
 
     @users_bp.route("/users", methods=["GET"])
-    @token_required(required_roles={"admin"})
+    @token_required(required_roles={"admin", "gestor"})
     def list_users():
         query = """
             SELECT

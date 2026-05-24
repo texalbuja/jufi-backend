@@ -22,6 +22,7 @@ def create_obligaciones_blueprint(
                 direcciones,
                 emails,
                 monto_adeudado,
+                tipo,
                 operaciones,
                 created_at,
                 updated_at
@@ -43,6 +44,7 @@ def create_obligaciones_blueprint(
                 "direcciones": list(row["direcciones"] or []),
                 "emails": list(row["emails"] or []),
                 "monto_adeudado": str(row["monto_adeudado"]),
+                "tipo": row["tipo"],
                 "operaciones": list(row["operaciones"] or []),
                 "created_at": row["created_at"].isoformat() if row["created_at"] else None,
                 "updated_at": row["updated_at"].isoformat() if row["updated_at"] else None,

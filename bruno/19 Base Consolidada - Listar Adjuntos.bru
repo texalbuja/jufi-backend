@@ -1,0 +1,15 @@
+meta {
+  name: Base Consolidada - Listar Adjuntos
+  type: http
+  seq: 19
+}
+
+get {
+  url: {{host}}/cuenta-consolidada/{{consolidadaId}}/adjuntos
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{gestorCuentaToken}}
+}

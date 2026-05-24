@@ -1,0 +1,15 @@
+meta {
+  name: Base Consolidada - Listar
+  type: http
+  seq: 16
+}
+
+get {
+  url: {{host}}/cuenta-consolidada?cuenta_id={{cuentaId}}&extracto_bancario_id={{extractoId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{gestorCuentaToken}}
+}

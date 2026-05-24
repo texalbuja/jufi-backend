@@ -1,0 +1,24 @@
+meta {
+  name: Base Consolidada - Registrar Actividad
+  type: http
+  seq: 20
+}
+
+post {
+  url: {{host}}/cuenta-consolidada/{{consolidadaId}}/actividad
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{gestorCuentaToken}}
+}
+
+body:json {
+  {
+    "tipo": "Observaciones",
+    "fecha": "2026-05-24T15:20:00Z",
+    "comentario": "Seguimiento de carga en base consolidada.",
+    "usuario_id": {{actividadUsuarioId}}
+  }
+}
