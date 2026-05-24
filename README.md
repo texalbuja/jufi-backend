@@ -118,6 +118,7 @@ flyway info
 - GET /auth/me: Returns authenticated user claims from JWT.
 - POST /auth/logout: Authenticated logout acknowledgement (JWT remains stateless).
 - GET /admin/ping: Protected endpoint, requires `admin` role.
+- GET /obligaciones/: Protected endpoint, returns the obligations list for integration testing.
 
 ## Integration Tests
 
