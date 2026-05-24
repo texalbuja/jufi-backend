@@ -12,6 +12,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from bank_accounts import create_bank_accounts_blueprint
 from aprobacion_montos import create_aprobacion_montos_blueprint
 from obligaciones import create_obligaciones_blueprint
+from dashboard import create_dashboard_blueprint
 from users import create_users_blueprint
 
 
@@ -19,7 +20,14 @@ app = Flask(__name__)
 
 CORS(
     app,
-    resources={r"/*": {"origins": os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost:5003,http://127.0.0.1:5003").split(",")}},
+    resources={
+        r"/*": {
+            "origins": os.getenv(
+                "CORS_ALLOWED_ORIGINS",
+                "http://localhost:5001,http://127.0.0.1:5001,http://localhost:5003,http://127.0.0.1:5003",
+            ).split(","),
+        }
+    },
     supports_credentials=True,
 )
 
@@ -250,6 +258,7 @@ app.register_blueprint(create_users_blueprint(get_db_connection, token_required)
 app.register_blueprint(create_bank_accounts_blueprint(get_db_connection, token_required))
 app.register_blueprint(create_obligaciones_blueprint(get_db_connection, token_required))
 app.register_blueprint(create_aprobacion_montos_blueprint(get_db_connection, token_required))
+app.register_blueprint(create_dashboard_blueprint(get_db_connection, token_required))
 
 
 if __name__ == "__main__":
